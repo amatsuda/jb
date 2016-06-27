@@ -1,4 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'jb'
+
+require 'rails'
+Bundler.require
 
 require 'minitest/autorun'
