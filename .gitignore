@@ -7,3 +7,4 @@
 /pkg/
 /spec/reports/
 /tmp/
+/test/dummy_app/log/*
