@@ -7,5 +7,6 @@ class JbTest < ActionDispatch::IntegrationTest
     json = JSON.parse(page.body)
 
     assert_equal 'post 1', json['title']
+    assert_equal 'user 1', json['user']['name']
   end
 end

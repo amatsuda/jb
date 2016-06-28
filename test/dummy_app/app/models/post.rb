@@ -1,1 +1,1 @@
-Post = Struct.new :id, :title, :comments
+Post = Struct.new :id, :user, :title, :comments

@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   def show
-    @post = Post.new 1, 'post 1'
+    user = User.new 1, 'user 1'
+    @post = Post.new 1, user, 'post 1'
   end
 end

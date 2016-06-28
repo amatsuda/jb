@@ -1,3 +1,4 @@
 {
-  title: @post.title
+  title: @post.title,
+  user: render(partial: 'users/user', object: @post.user)
 }
