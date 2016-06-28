@@ -26,7 +26,7 @@ module Jb
 
   class Handler
     def call(template)
-      "extend Jb::TemplateRenderer; view_renderer.extend Jb::PartialRenderer; #{template.source}.to_json"
+      "extend Jb::TemplateRenderer; view_renderer.extend Jb::PartialRenderer; String === (_jb_object = (#{template.source})) ? _jb_object : _jb_object.to_json"
     end
   end
 end

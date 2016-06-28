@@ -1,1 +1,1 @@
-{name: user.name}
+%Q!{"name": "#{user.name}"}!
