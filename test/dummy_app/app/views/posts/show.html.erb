@@ -1,2 +1,0 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
