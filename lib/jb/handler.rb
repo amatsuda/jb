@@ -1,26 +1,43 @@
 module Jb
   module PartialRenderer
-    # A monkey-patch for `render` method to always return a valid JSON String.
-    # render partial + non collection  =>  expect super to return a valid JSON
-    # render partial + collection      =>  transform the collection to an Array-ish notation with a spacer comma and []
-    def render(_context, options)
-      if options.has_key? :collection
-        options[:spacer_template] = 'jb/comma'
-        "[#{super}]"
-      else
-        super
+    module JbTemplateDetector
+      # A monkey-patch to inject StrongArray module to Jb partial renderer
+      private def find_partial
+        template = super
+        extend RenderCollectionExtension if template && (Jb::Handler === template.handler)
+        template
       end
     end
 
-#     private def render_partial(*)
-#       super.to_json
-#     end
+    # A horrible monkey-patch to prevent rendered collection from being converted to String
+    module StrongArray
+      def join(*)
+        self
+      end
+
+      def html_safe
+        self
+      end
+    end
+
+    # A monkey-patch strengthening rendered collection
+    module RenderCollectionExtension
+      private def collection_with_template
+        super.extend StrongArray
+      end
+
+      private def collection_without_template
+        super.extend StrongArray
+      end
+    end
   end
 
-  # A monkey-patch for `render` method to convert rendered partial JSON String back to a Ruby Object.
   module TemplateRenderer
-    def render(*)
-      JSON.parse(super)
+    # A monkey-patch that converts non-partial result to a JSON String
+    module JSONizer
+      def render_template(template, *)
+        Jb::Handler === template.handler ? super.to_json : super
+      end
     end
   end
 
@@ -29,7 +46,10 @@ module Jb
     self.default_format = :json
 
     def call(template)
-      "extend Jb::TemplateRenderer; view_renderer.extend Jb::PartialRenderer; String === (_jb_object = (#{template.source})) ? _jb_object : _jb_object.to_json"
+      template.source
     end
   end
 end
+
+::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::JbTemplateDetector
+::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
