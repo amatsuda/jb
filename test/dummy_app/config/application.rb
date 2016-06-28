@@ -1,6 +1,9 @@
 require_relative 'boot'
 
-require 'rails/all'
+require 'action_controller/railtie'
+require 'action_view/railtie'
+require 'action_mailer/railtie'
+require 'rails/test_unit/railtie'
 
 Bundler.require(*Rails.groups)
 require "jb"
@@ -12,4 +15,3 @@ module Dummy
     # -- all .rb files in that directory are automatically loaded.
   end
 end
-
