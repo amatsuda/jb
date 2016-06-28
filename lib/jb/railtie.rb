@@ -1,5 +1,5 @@
 module Jb
-  class Engine < ::Rails::Engine
+  class Railtie < ::Rails::Railtie
     initializer 'jb' do
       ActiveSupport.on_load :action_view do
         require 'jb/action_view_monkeys'
