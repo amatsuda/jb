@@ -25,6 +25,9 @@ module Jb
   end
 
   class Handler
+    class_attribute :default_format
+    self.default_format = :json
+
     def call(template)
       "extend Jb::TemplateRenderer; view_renderer.extend Jb::PartialRenderer; String === (_jb_object = (#{template.source})) ? _jb_object : _jb_object.to_json"
     end
