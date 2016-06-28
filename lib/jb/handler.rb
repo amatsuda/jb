@@ -4,7 +4,7 @@ module Jb
       # A monkey-patch to inject StrongArray module to Jb partial renderer
       private def find_partial
         template = super
-        extend RenderCollectionExtension if template && (Jb::Handler === template.handler)
+        extend RenderCollectionExtension if template && (template.handler == Jb::Handler)
         template
       end
     end
@@ -36,7 +36,7 @@ module Jb
     # A monkey-patch that converts non-partial result to a JSON String
     module JSONizer
       def render_template(template, *)
-        Jb::Handler === template.handler ? super.to_json : super
+        template.handler == Jb::Handler ? super.to_json : super
       end
     end
   end
@@ -45,7 +45,7 @@ module Jb
     class_attribute :default_format
     self.default_format = :json
 
-    def call(template)
+    def self.call(template)
       template.source
     end
   end
