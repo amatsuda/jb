@@ -12,4 +12,9 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal 'comment 2', json['comments'][1]['body']
     assert_equal 'comment 3', json['comments'][2]['body']
   end
+
+  test ':plain handler still works' do
+    visit '/posts/hello'
+    assert_equal 'hello', page.body
+  end
 end
