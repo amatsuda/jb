@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class JbTest < ActionDispatch::IntegrationTest
-  test 'The controller works without engines' do
+  test 'The template correctly renders a JSON' do
     visit '/posts/1.json'
 
     json = JSON.parse(page.body)
