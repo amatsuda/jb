@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'benchmarks/index'
+
   resources :posts, only: :show do
     collection do
       get :hello
