@@ -16,8 +16,7 @@ And bundle.
 
 ## Usage
 
-Write a template that contains a Ruby code that returns a Ruby Hash / Array object.
-Then the object will be `to_json`ed to a JSON String.
+Put a template file named `*.jb` in your Rails app's `app/views/*` directory, and render it.
 
 
 ## Features
@@ -25,6 +24,185 @@ Then the object will be `to_json`ed to a JSON String.
 * No ugly builder syntax
 * No `method_missing` calls
 * `render_partial` with :collection option actually renders the collection (unlike Jbuilder)
+
+
+## Syntax
+
+A `.jb` template should contain Ruby code that returns any Ruby Object that responds_to `to_json` (generally Hash or Array).
+Then the return value will be `to_json`ed to a JSON String.
+
+
+## Examples
+
+``` ruby
+# app/views/messages/show.json.jb
+
+json = {
+  content: format_content(@message.content),
+  created_at: @message.created_at,
+  updated_at: @message.updated_at,
+  author: {
+    name: @message.creator.name.familiar,
+    email_address: @message.creator.email_address_with_name,
+    url: url_for(@message.creator, format: :json)
+  }
+}
+
+if current_user.admin?
+  json[:visitors] = calculate_visitors(@message)
+end
+
+json[:comments] = {
+  content: @message.comments.content,
+  created_at: @message.comments.created_at
+}
+
+json[:attachments] = @message.attachments.map do |attachment|
+  filename: attachment.filename,
+  url: url_for(attachment)
+end
+
+json
+```
+
+This will build the following structure:
+
+``` javascript
+{
+  "content": "10x JSON",
+  "created_at": "2016-06-29T20:45:28-05:00",
+  "updated_at": "2016-06-29T20:45:28-05:00",
+
+  "author": {
+    "name": "Yukihiro Matz",
+    "email_address": "matz@example.com",
+    "url": "http://example.com/users/1-matz.json"
+  },
+
+  "visitors": 1326,
+
+  "comments": [
+    { "content": "Hello, world!", "created_at": "2016-06-29T20:45:28-05:00" },
+    { "content": "<script>alert('Hello, world!');</script>", "created_at": "2016-06-29T20:47:28-05:00" }
+  ],
+
+  "attachments": [
+    { "filename": "sushi.png", "url": "http://example.com/downloads/sushi.png" },
+    { "filename": "sake.jpg", "url": "http://example.com/downloads/sake.jpg" }
+  ]
+}
+```
+
+To define attribute and structure names dynamically, just use Ruby Hash.
+Note that modern Ruby Hash syntax pretty much looks alike JSON syntax.
+It's super-straight forward. Who needs a DSL to do this?
+
+``` ruby
+{author: {name: 'Matz'}}
+
+# => {"author": {"name": "Matz"}}
+```
+
+Top level arrays can be handled directly.  Useful for index and other collection actions.
+And you know, Ruby is such a powerful language for manipulating collections:
+
+``` ruby
+# @comments = @post.comments
+
+@comments.reject {|c| c.marked_as_spam_by?(current_user) }.map do |comment|
+  body: comment.body,
+  author: {
+    first_name: comment.author.first_name,
+    last_name: comment.author.last_name
+  }
+end
+
+# => [{"body": "🍣 is omakase...", "author": {"first_name": "Yukihiro", "last_name": "Matz"}}]
+```
+
+Jb has no special DSL method for extracting attributes from array directly, but you can do that with Ruby.
+
+``` ruby
+# @people = People.all
+
+@people.map {|p| {id: p.id, name: p.name}}
+
+# => [{"id": 1, "name": "Matz"}, {"id": 2, "name": "Nobu"}]
+```
+
+You can use Jb directly as an Action View template language.
+When required in Rails, you can create views ala show.json.jb.
+You'll notice in the following example that the `.jb` template
+doesn't have to be one big Ruby Hash literal as a whole
+but it can be any Ruby code that finally returns a Hash instance.
+
+``` ruby
+# Any helpers available to views are available in the template
+json = {
+  content: format_content(@message.content),
+  created_at: @message.created_at,
+  updated_at: @message.updated_at,
+
+  author: {
+    name: @message.creator.name.familiar,
+    email_address: @message.creator.email_address_with_name,
+    url: url_for(@message.creator, format: :json)
+  }
+}
+
+if current_user.admin?
+  json[:visitors] = calculate_visitors(@message)
+end
+
+json
+```
+
+You can use partials as well.  The following will render the file
+`views/comments/_comments.json.jb`, and set a local variable
+`comments` with all this message's comments, which you can use inside
+the partial.
+
+```ruby
+render 'comments/comments', comments: @message.comments
+```
+
+It's also possible to render collections of partials:
+
+```ruby
+render partial: 'posts/post', collection: @posts, as: :post
+
+# or
+
+render @post.comments
+```
+
+You can pass any objects into partial templates with or without `:locals` option.
+
+```ruby
+render 'sub_template', locals: {user: user}
+
+# or
+
+render 'sub_template', user: user
+```
+
+You can of course include Ruby `nil` as a Hash value if you want. That would become `null` in the JSON.
+
+To prevent Jb from including null values in the output, Active Support provides `Hash#compact!` method for you:
+
+```ruby
+{foo: nil, bar: 'bar'}.compact
+
+# => {"bar": "bar"}
+```
+
+If you want to cache a template fragment, just directly call `Rails.cache.fetch`:
+
+```ruby
+Rails.cache.fetch ['v1', @person], expires_in: 10.minutes do
+  {name: @person.name, age: @person.age}
+end
+```
 
 
 ## The Generator
