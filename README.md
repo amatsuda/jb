@@ -214,6 +214,17 @@ Rails.application.config.generators.jb false
 ```
 
 
+## Why is Jb fast?
+
+Jbuilder's `partial` + `:collection` [internally calls `array!` method](https://github.com/rails/jbuilder/blob/83a682aeebde96c6ef02ce742c0b97dc393f5e22/lib/jbuilder/jbuilder_template.rb#L85-L95)
+inside which [`_render_partial` is called per each element of the given collection](https://github.com/rails/jbuilder/blob/83a682aeebde96c6ef02ce742c0b97dc393f5e22/lib/jbuilder/jbuilder_template.rb#L93),
+and then it [falls back to the `view_context`'s `render` method](https://github.com/rails/jbuilder/blob/83a682aeebde96c6ef02ce742c0b97dc393f5e22/lib/jbuilder/jbuilder_template.rb#L100-L103).
+
+So, for example if the collection has 100 elements, Jbuilder's `render partial:` performs `render` method 100 times, and so it calls `find_template` method (which is known as one of the heaviest parts of Action View) 100 times.
+
+OTOH, Jb simply calls [ActionView::PartialRenderer's `render`](https://github.com/rails/rails/blob/49a881e0db1ef64fcbae2b7ddccfd5ccea26ae01/actionview/lib/action_view/renderer/partial_renderer.rb#L423-L443) which is cleverly implmented to `find_template` only once beforehand, then pass each element to that template.
+
+
 ## Bencharks
 Here're the results of a benchmark (which you can find [here](https://github.com/amatsuda/jb/blob/master/test/dummy_app/app/controllers/benchmarks_controller.rb) in this repo) rendering a collection to JSON.
 
