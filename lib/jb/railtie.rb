@@ -7,5 +7,11 @@ module Jb
         ::ActionView::Template.register_template_handler :jb, Jb::Handler
       end
     end
+
+    generators do |app|
+      Rails::Generators.configure! app.config.generators
+      Rails::Generators.hidden_namespaces.uniq!
+      require_relative '../generators/rails/scaffold_controller_generator'
+    end
   end
 end
