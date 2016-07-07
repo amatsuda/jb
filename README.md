@@ -27,6 +27,15 @@ Then the object will be `to_json`ed to a JSON String.
 * `render_partial` with :collection option actually renders the collection (unlike Jbuilder)
 
 
+## The Generator
+Jb extends the default Rails scaffold generator and adds some .jb templates.
+If you don't need them, please configure like so.
+
+```ruby
+Rails.application.config.generators.jb false
+```
+
+
 ## Bencharks
 Here're the results of a benchmark (which you can find [here](https://github.com/amatsuda/jb/blob/master/test/dummy_app/app/controllers/benchmarks_controller.rb) in this repo) rendering a collection to JSON.
 
