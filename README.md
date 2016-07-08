@@ -225,7 +225,7 @@ So, for example if the collection has 100 elements, Jbuilder's `render partial:`
 OTOH, Jb simply calls [ActionView::PartialRenderer's `render`](https://github.com/rails/rails/blob/49a881e0db1ef64fcbae2b7ddccfd5ccea26ae01/actionview/lib/action_view/renderer/partial_renderer.rb#L423-L443) which is cleverly implmented to `find_template` only once beforehand, then pass each element to that template.
 
 
-## Bencharks
+## Benchmarks
 Here're the results of a benchmark (which you can find [here](https://github.com/amatsuda/jb/blob/master/test/dummy_app/app/controllers/benchmarks_controller.rb) in this repo) rendering a collection to JSON.
 
 ### RAILS_ENV=development
