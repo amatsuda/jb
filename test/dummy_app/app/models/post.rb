@@ -1,6 +1,6 @@
 Post = Struct.new :id, :user, :title, :comments do
   user = User.find 1
-  @all = [new(1, user, 'post 1')]
+  @all = [new(1, user, 'post 1'), new(2, user, 'post 2')]
 
   class << self
     attr_reader :all

@@ -13,6 +13,16 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal 'comment 3', json['comments'][2]['body']
   end
 
+
+  test 'render_partial returns an empty array for nil-collection' do
+    visit '/posts/2.json'
+
+    json = JSON.parse(page.body)
+
+    assert_equal 'post 2', json['title']
+    assert_equal [], json['comments']
+  end
+
   test ':plain handler still works' do
     visit '/posts/hello'
     assert_equal 'hello', page.body

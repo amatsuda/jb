@@ -29,6 +29,11 @@ module Jb
       private def collection_without_template
         super.extend StrongArray
       end
+
+      private def render_collection
+        return [] if @collection.blank?
+        super
+      end
     end
   end
 
