@@ -41,7 +41,7 @@ module Jb
   module TemplateRenderer
     module JSONizer
       def render_template(template, *)
-        template.respond_to?(:handler) && (template.handler == Jb::Handler) ? super.to_json : super
+        template.respond_to?(:handler) && (template.handler == Jb::Handler) ? MultiJson.dump(super) : super
       end
     end
   end
