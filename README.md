@@ -222,7 +222,7 @@ and then it [falls back to the `view_context`'s `render` method](https://github.
 
 So, for example if the collection has 100 elements, Jbuilder's `render partial:` performs `render` method 100 times, and so it calls `find_template` method (which is known as one of the heaviest parts of Action View) 100 times.
 
-OTOH, Jb simply calls [ActionView::PartialRenderer's `render`](https://github.com/rails/rails/blob/49a881e0db1ef64fcbae2b7ddccfd5ccea26ae01/actionview/lib/action_view/renderer/partial_renderer.rb#L423-L443) which is cleverly implmented to `find_template` only once beforehand, then pass each element to that template.
+OTOH, Jb simply calls [ActionView::PartialRenderer's `render`](https://github.com/rails/rails/blob/49a881e0db1ef64fcbae2b7ddccfd5ccea26ae01/actionview/lib/action_view/renderer/partial_renderer.rb#L423-L443) which is cleverly implemented to `find_template` only once beforehand, then pass each element to that template.
 
 
 ## Benchmarks
