@@ -1,3 +1,5 @@
+require 'multi_json'
+
 module Jb
   module PartialRenderer
     module JbTemplateDetector
