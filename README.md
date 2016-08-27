@@ -52,14 +52,18 @@ if current_user.admin?
   json[:visitors] = calculate_visitors(@message)
 end
 
-json[:comments] = {
-  content: @message.comments.content,
-  created_at: @message.comments.created_at
-}
+json[:comments] = @message.comments.map do |comment|
+  {
+    content: comment.content,
+    created_at: comment.created_at
+  }
+end
 
 json[:attachments] = @message.attachments.map do |attachment|
-  filename: attachment.filename,
-  url: url_for(attachment)
+  {
+    filename: attachment.filename,
+    url: url_for(attachment)
+  }
 end
 
 json
@@ -110,10 +114,12 @@ And you know, Ruby is such a powerful language for manipulating collections:
 # @comments = @post.comments
 
 @comments.reject {|c| c.marked_as_spam_by?(current_user) }.map do |comment|
-  body: comment.body,
-  author: {
-    first_name: comment.author.first_name,
-    last_name: comment.author.last_name
+  {
+    body: comment.body,
+    author: {
+      first_name: comment.author.first_name,
+      last_name: comment.author.last_name
+    }
   }
 end
 
