@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Comment = Struct.new :id, :post, :body do
   post = Post.find 1
   @all = [new(1, post, 'comment 1'), new(2, post, 'comment 2'), new(3, post, 'comment 3')]

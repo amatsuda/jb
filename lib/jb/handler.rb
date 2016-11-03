@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Jb
   class Handler
     class_attribute :default_format
