@@ -12,6 +12,7 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal 'comment 1', json['comments'][0]['body']
     assert_equal 'comment 2', json['comments'][1]['body']
     assert_equal 'comment 3', json['comments'][2]['body']
+    assert_equal 'metadata layout', json['metadata']
   end
 
 
@@ -22,6 +23,7 @@ class JbTest < ActionDispatch::IntegrationTest
 
     assert_equal 'post 2', json['title']
     assert_equal [], json['comments']
+    assert_equal 'metadata layout', json['metadata']
   end
 
   test ':plain handler still works' do
