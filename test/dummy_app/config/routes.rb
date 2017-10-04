@@ -7,5 +7,11 @@ Rails.application.routes.draw do
   end
 
   resources :benchmarks, only: :index
+
+  if Rails::VERSION::MAJOR >= 5
+    namespace :api do
+      resources :posts, only: :show
+    end
+  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
