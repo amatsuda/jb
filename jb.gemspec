@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'multi_json'
 
   spec.add_development_dependency "bundler", "~> 1.12"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency 'rake'
   spec.add_development_dependency 'test-unit-rails'
   spec.add_development_dependency 'rails'
   spec.add_development_dependency 'capybara'
