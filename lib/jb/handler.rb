@@ -7,5 +7,9 @@ module Jb
     def self.call(template)
       template.source
     end
+
+    def self.handles_encoding?
+      true
+    end
   end
 end
