@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["ronnie@dio.jp"]
 
   spec.summary       = 'Faster and simpler Jbuilder alternative'
-  spec.description   = 'Faster and simpler Jbuilder alternative'
+  spec.description   = 'Faster and simpler JSON renderer for Rails'
   spec.homepage      = 'https://github.com/amatsuda/jb'
   spec.license       = "MIT"
 
