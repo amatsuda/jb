@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-Post = Struct.new :id, :user, :title, :comments do
+Post = Struct.new :id, :user, :title do
   user = User.find 1
   @all = [new(1, user, 'post 1'), new(2, user, 'post 2')]
 
