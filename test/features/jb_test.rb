@@ -3,9 +3,9 @@ require 'test_helper'
 
 class JbTest < ActionDispatch::IntegrationTest
   test 'The template correctly renders a JSON' do
-    visit '/posts/1.json'
+    get '/posts/1.json'
 
-    json = JSON.parse(page.body)
+    json = response.parsed_body
 
     assert_equal 'post 1', json['title']
     assert_equal 'user 1', json['user']['name']
@@ -16,16 +16,16 @@ class JbTest < ActionDispatch::IntegrationTest
 
 
   test 'render_partial returns an empty array for nil-collection' do
-    visit '/posts/2.json'
+    get '/posts/2.json'
 
-    json = JSON.parse(page.body)
+    json = response.parsed_body
 
     assert_equal 'post 2', json['title']
     assert_equal [], json['comments']
   end
 
   test ':plain handler still works' do
-    visit '/posts/hello'
-    assert_equal 'hello', page.body
+    get '/posts/hello'
+    assert_equal 'hello', response.parsed_body
   end
 end
