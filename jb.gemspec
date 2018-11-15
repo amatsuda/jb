@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'test-unit-rails'
   spec.add_development_dependency 'rails'
+  spec.add_development_dependency 'action_args'
 end
