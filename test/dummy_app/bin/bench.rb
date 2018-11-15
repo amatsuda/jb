@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'action_dispatch/testing/integration'
 
 puts '* Rendering 10 partials via render_partial'
