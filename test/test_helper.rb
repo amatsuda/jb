@@ -7,4 +7,5 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require File.expand_path("../../test/dummy_app/config/environment.rb",  __FILE__)
 
 Bundler.require
+require 'action_args'
 require 'test/unit/rails/test_help'
