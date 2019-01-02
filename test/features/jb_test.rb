@@ -6,7 +6,11 @@ class JbTest < ActionDispatch::IntegrationTest
   test 'The template correctly renders a JSON' do
     get '/posts/1.json'
 
-    json = response.parsed_body
+    json = if response.respond_to?(:parsed_body)
+      response.parsed_body
+    else
+      JSON.parse response.body
+    end
 
     assert_equal 'post 1', json['title']
     assert_equal 'user 1', json['user']['name']
@@ -19,7 +23,11 @@ class JbTest < ActionDispatch::IntegrationTest
   test 'render_partial returns an empty array for nil-collection' do
     get '/posts/2.json'
 
-    json = response.parsed_body
+    json = if response.respond_to?(:parsed_body)
+      response.parsed_body
+    else
+      JSON.parse response.body
+    end
 
     assert_equal 'post 2', json['title']
     assert_equal [], json['comments']
@@ -27,6 +35,6 @@ class JbTest < ActionDispatch::IntegrationTest
 
   test ':plain handler still works' do
     get '/posts/hello'
-    assert_equal 'hello', response.parsed_body
+    assert_equal 'hello', response.body
   end
 end
