@@ -193,7 +193,7 @@ render 'sub_template', user: user
 
 You can of course include Ruby `nil` as a Hash value if you want. That would become `null` in the JSON.
 
-To prevent Jb from including null values in the output, Active Support provides `Hash#compact!` method for you:
+You can use `Hash#compact`/`!` method to prevent including `null` values in the output:
 
 ```ruby
 {foo: nil, bar: 'bar'}.compact
