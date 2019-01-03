@@ -176,11 +176,10 @@ It's also possible to render collections of partials:
 
 ```ruby
 render partial: 'posts/post', collection: @posts, as: :post
-
-# or
-
-render @post.comments
 ```
+
+> NOTE: Don't use `render @post.comments` because if the collection is empty,
+`render` will return `nil` instead of an empty array.
 
 You can pass any objects into partial templates with or without `:locals` option.
 
