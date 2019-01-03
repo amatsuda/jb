@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 
-before_install: gem update bundler
+before_install: gem up --system && gem up bundler -v '<2'
 
 rvm:
   - 2.6.0
