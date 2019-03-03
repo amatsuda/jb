@@ -5,8 +5,8 @@ module Jb
     class_attribute :default_format
     self.default_format = :json
 
-    def self.call(template)
-      template.source
+    def self.call(template, source=nil)
+      source || template.source
     end
 
     def self.handles_encoding?
