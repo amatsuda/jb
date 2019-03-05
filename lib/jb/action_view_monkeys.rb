@@ -6,8 +6,8 @@ module Jb
   module PartialRenderer
     module JbTemplateDetector
       # A monkey-patch to inject StrongArray module to Jb partial renderer
-      private def find_partial
-        template = super
+      private def find_partial(*args)
+        template = super(*args)
         extend RenderCollectionExtension if template && (template.handler == Jb::Handler)
         template
       end
