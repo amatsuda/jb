@@ -44,8 +44,16 @@ module Jb
   # A monkey-patch that converts non-partial result to a JSON String
   module TemplateRenderer
     module JSONizer
-      def render_template(template, *)
-        template.respond_to?(:handler) && (template.handler == Jb::Handler) ? MultiJson.dump(super) : super
+      if ::ActionView::TemplateRenderer.instance_method(:render_template).arity == 4  # Action View 6
+        def render_template(_view, template, *)
+          super.tap do |rendered_template|
+            rendered_template.instance_variable_set :@body, MultiJson.dump(rendered_template.body) if template.respond_to?(:handler) && (template.handler == Jb::Handler)
+          end
+        end
+      else
+        def render_template(template, *)
+          template.respond_to?(:handler) && (template.handler == Jb::Handler) ? MultiJson.dump(super) : super
+        end
       end
     end
   end
