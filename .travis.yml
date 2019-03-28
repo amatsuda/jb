@@ -4,8 +4,8 @@ language: ruby
 before_install: gem up --system && gem i bundler -v '<2'
 
 rvm:
-  - 2.6.0
-  - 2.5.3
+  - 2.6.2
+  - 2.5.5
 
 gemfile:
   - gemfiles/rails_52.gemfile
