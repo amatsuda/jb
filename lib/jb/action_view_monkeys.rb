@@ -3,6 +3,14 @@
 require 'multi_json'
 
 module Jb
+  module AbstractRenderer
+    module RenderedCollectionExtension
+      def body
+        @rendered_templates.map(&:body)
+      end
+    end
+  end
+
   module PartialRenderer
     module JbTemplateDetector
       # A monkey-patch to inject StrongArray module to Jb partial renderer
@@ -59,5 +67,9 @@ module Jb
   end
 end
 
-::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::JbTemplateDetector
+if defined?(::ActionView::AbstractRenderer::RenderedCollection)  # Action View 6
+  ::ActionView::AbstractRenderer::RenderedCollection.prepend ::Jb::PartialRenderer::JbTemplateDetector
+else
+  ::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::JbTemplateDetector
+end
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
