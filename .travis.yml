@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 
-before_install: gem up --system && gem i bundler -v '<2'
+before_install: gem i bundler -v '<2'
 
 rvm:
   - 2.6.2
