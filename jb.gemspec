@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'test-unit-rails'
   spec.add_development_dependency 'rails'
   spec.add_development_dependency 'action_args'
+  spec.add_development_dependency 'byebug'
 end
