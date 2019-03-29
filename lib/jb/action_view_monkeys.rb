@@ -68,7 +68,7 @@ module Jb
 end
 
 if defined?(::ActionView::AbstractRenderer::RenderedCollection)  # Action View 6
-  ::ActionView::AbstractRenderer::RenderedCollection.prepend ::Jb::PartialRenderer::JbTemplateDetector
+  ::ActionView::AbstractRenderer::RenderedCollection.prepend ::Jb::AbstractRenderer::RenderedCollectionExtension
 else
   ::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::JbTemplateDetector
 end
