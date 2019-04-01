@@ -4,7 +4,12 @@ module Jb
   class Railtie < ::Rails::Railtie
     initializer 'jb' do
       ActiveSupport.on_load :action_view do
-        require 'jb/action_view_monkeys'
+        require 'multi_json'
+        if Rails::VERSION::MAJOR >= 6
+          require 'jb/action_view_monkeys'
+        else
+          require 'jb/action_view_legacy_monkeys'
+        end
         require 'jb/handler'
         ::ActionView::Template.register_template_handler :jb, Jb::Handler
       end
