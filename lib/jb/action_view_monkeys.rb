@@ -20,7 +20,16 @@ module Jb
       end
     end
   end
+
+  module PartialRendererExtension
+    private def render_collection(_view, template)
+      obj = super
+      def obj.body; []; end if obj.is_a?(ActionView::AbstractRenderer::RenderedCollection::EmptyCollection) && template.respond_to?(:handler) && (template.handler == Jb::Handler)
+      obj
+    end
+  end
 end
 
 ::ActionView::AbstractRenderer::RenderedCollection.prepend ::Jb::AbstractRenderer::RenderedCollectionExtension
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
+::ActionView::PartialRenderer.prepend ::Jb::PartialRendererExtension

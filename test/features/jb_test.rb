@@ -30,11 +30,7 @@ class JbTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal 'post 2', json['title']
-    if ActionView::VERSION::MAJOR >= 6
-      assert_nil json['comments']
-    else
-      assert_equal [], json['comments']
-    end
+    assert_equal [], json['comments']
   end
 
   test ':plain handler still works' do
