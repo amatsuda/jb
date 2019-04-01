@@ -14,9 +14,9 @@ module Jb
   module TemplateRenderer
     module JSONizer
       def render_template(_view, template, *)
-        super.tap do |rendered_template|
-          rendered_template.instance_variable_set :@body, MultiJson.dump(rendered_template.body) if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-        end
+        rendered_template = super
+        rendered_template.instance_variable_set :@body, MultiJson.dump(rendered_template.body) if template.respond_to?(:handler) && (template.handler == Jb::Handler)
+        rendered_template
       end
     end
   end
