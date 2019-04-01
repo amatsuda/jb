@@ -18,7 +18,7 @@ module Jb
     private def render_collection(_view, template)
       obj = super
       if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-        if obj.is_a? ActionView::AbstractRenderer::RenderedCollection::EmptyCollection
+        if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
           def obj.body; []; end
         else
           def obj.body; @rendered_templates.map(&:body); end
