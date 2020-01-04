@@ -6,7 +6,7 @@ require 'rails/generators/rails/scaffold_controller/scaffold_controller_generato
 module Rails
   module Generators
     class ScaffoldControllerGenerator
-      hook_for :jb, default: true
+      hook_for :jb, type: :boolean, default: true
     end
   end
 end
