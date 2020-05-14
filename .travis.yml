@@ -22,3 +22,10 @@ matrix:
       gemfile: gemfiles/rails_50.gemfile
     - rvm: 2.7.1
       gemfile: gemfiles/rails_42.gemfile
+
+  include:
+    - rvm: ruby-head
+      gemfile: gemfiles/Gemfile-rails.edge
+
+  allow_failures:
+    - rvm: ruby-head
