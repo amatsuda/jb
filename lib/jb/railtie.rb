@@ -4,7 +4,6 @@ module Jb
   class Railtie < ::Rails::Railtie
     initializer 'jb' do
       ActiveSupport.on_load :action_view do
-        require 'multi_json'
         if Rails::VERSION::MAJOR >= 6
           require 'jb/action_view_monkeys'
         else
