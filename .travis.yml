@@ -25,7 +25,7 @@ matrix:
 
   include:
     - rvm: ruby-head
-      gemfile: gemfiles/Gemfile-rails.edge
+      gemfile: gemfiles/rails_edge.gemfile
 
   allow_failures:
     - rvm: ruby-head
