@@ -1,7 +1,7 @@
 language: ruby
 
 rvm:
-  - 2.7.1
+  - 2.7.2
   - 2.6.6
   - 2.5.8
 
@@ -14,13 +14,13 @@ gemfile:
 
 matrix:
   exclude:
-    - rvm: 2.7.1
+    - rvm: 2.7.2
       gemfile: gemfiles/rails_52.gemfile
-    - rvm: 2.7.1
+    - rvm: 2.7.2
       gemfile: gemfiles/rails_51.gemfile
-    - rvm: 2.7.1
+    - rvm: 2.7.2
       gemfile: gemfiles/rails_50.gemfile
-    - rvm: 2.7.1
+    - rvm: 2.7.2
       gemfile: gemfiles/rails_42.gemfile
 
   include:
