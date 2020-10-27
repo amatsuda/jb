@@ -24,6 +24,8 @@ matrix:
       gemfile: gemfiles/rails_42.gemfile
 
   include:
+    - rvm: 2.7.2
+      gemfile: gemfiles/rails_edge.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 
