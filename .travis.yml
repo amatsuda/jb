@@ -17,6 +17,9 @@ matrix:
     - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 
+    - rvm: 3.0.1
+      gemfile: gemfiles/rails_edge.gemfile
+
     - rvm: 2.7.3
       gemfile: gemfiles/rails_edge.gemfile
 
