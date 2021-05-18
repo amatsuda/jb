@@ -1,7 +1,7 @@
 language: ruby
 
 before_install:
-  - "ruby -e 'exit RUBY_VERSION.to_f >= 2.7' && gem i bundler"
+  - if [ `echo "${TRAVIS_RUBY_VERSION:0:3} >= 2.7" | bc` == 1 ]; then gem i bundler; fi;
 
 rvm:
   - 3.0.1
