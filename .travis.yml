@@ -7,19 +7,17 @@ rvm:
 gemfile:
   - gemfiles/rails_61.gemfile
   - gemfiles/rails_60.gemfile
-  - gemfiles/rails_52.gemfile
 
 matrix:
-  exclude:
-    - rvm: 2.7.3
-      gemfile: gemfiles/rails_52.gemfile
-
   include:
-    - rvm: 2.7.3
-      gemfile: gemfiles/rails_edge.gemfile
     - rvm: ruby-head
       gemfile: gemfiles/rails_edge.gemfile
 
+    - rvm: 2.7.3
+      gemfile: gemfiles/rails_edge.gemfile
+
+    - rvm: 2.6.7
+      gemfile: gemfiles/rails_52.gemfile
     - rvm: 2.6.7
       gemfile: gemfiles/rails_51.gemfile
     - rvm: 2.6.7
@@ -27,6 +25,8 @@ matrix:
     - rvm: 2.6.7
       gemfile: gemfiles/rails_42.gemfile
 
+    - rvm: 2.5.9
+      gemfile: gemfiles/rails_52.gemfile
     - rvm: 2.5.9
       gemfile: gemfiles/rails_42.gemfile
 
