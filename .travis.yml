@@ -1,7 +1,7 @@
 language: ruby
 
 before_install:
-  - gem i bundler
+  - "ruby -e 'exit RUBY_VERSION.to_f >= 2.7' && gem i bundler"
 
 rvm:
   - 3.0.1
