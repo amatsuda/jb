@@ -1,5 +1,8 @@
 language: ruby
 
+before_install:
+  - gem i bundler
+
 rvm:
   - 3.0.1
   - 2.7.3
