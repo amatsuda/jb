@@ -7,7 +7,7 @@ module Jb
     module JSONizer
       def render_template(_view, template, *)
         rendered_template = super
-        rendered_template.instance_variable_set :@body, rendered_template.body.to_json if template.respond_to?(:handler) && (template.handler == Jb::Handler)
+        rendered_template.instance_variable_set :@body, rendered_template.body.as_json.to_json if template.respond_to?(:handler) && (template.handler == Jb::Handler)
         rendered_template
       end
     end
