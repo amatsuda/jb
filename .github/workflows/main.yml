@@ -1,0 +1,56 @@
+name: Ruby
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        ruby_version: ['3.0', '2.7', '2.6']
+
+        gemfile:
+          - gemfiles/rails_61.gemfile
+          - gemfiles/rails_60.gemfile
+
+        include:
+          - ruby_version: ruby-head
+            gemfile: gemfiles/rails_edge.gemfile
+            allow_failures: 'true'
+          - ruby_version: '3.0'
+            gemfile: gemfiles/rails_edge.gemfile
+            allow_failures: 'true'
+
+          - ruby_version: '2.7'
+            gemfile: gemfiles/rails_edge.gemfile
+            allow_failures: 'true'
+
+          - ruby_version: '2.6'
+            gemfile: gemfiles/rails_52.gemfile
+          - ruby_version: '2.6'
+            gemfile: gemfiles/rails_51.gemfile
+          - ruby_version: '2.6'
+            gemfile: gemfiles/rails_50.gemfile
+          - ruby_version: '2.6'
+            gemfile: gemfiles/rails_42.gemfile
+
+          - ruby_version: '2.5'
+            gemfile: gemfiles/rails_52.gemfile
+          - ruby_version: '2.5'
+            gemfile: gemfiles/rails_42.gemfile
+
+          - ruby_version: '2.4'
+            gemfile: gemfiles/rails_52.gemfile
+          - ruby_version: '2.4'
+            gemfile: gemfiles/rails_42.gemfile
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby_version }}
+        bundler-cache: true
+      continue-on-error: ${{ matrix.allow_failures == 'true' }}
+    - run: bundle exec rake
+      continue-on-error: ${{ matrix.allow_failures == 'true' }}
