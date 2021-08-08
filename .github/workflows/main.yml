@@ -32,16 +32,19 @@ jobs:
             gemfile: gemfiles/rails_50.gemfile
           - ruby_version: '2.6'
             gemfile: gemfiles/rails_42.gemfile
+            bundler_version: '1'
 
           - ruby_version: '2.5'
             gemfile: gemfiles/rails_52.gemfile
           - ruby_version: '2.5'
             gemfile: gemfiles/rails_42.gemfile
+            bundler_version: '1'
 
           - ruby_version: '2.4'
             gemfile: gemfiles/rails_52.gemfile
           - ruby_version: '2.4'
             gemfile: gemfiles/rails_42.gemfile
+            bundler_version: '1'
 
     runs-on: ubuntu-latest
 
@@ -53,6 +56,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby_version }}
+        bundler: ${{ matrix.bundler_version }}
         bundler-cache: true
       continue-on-error: ${{ matrix.allow_failures == 'true' }}
     - run: bundle exec rake
