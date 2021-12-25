@@ -14,3 +14,4 @@ github 'rails/rails' do
 end
 
 gem 'selenium-webdriver'
+gem 'net-smtp'
