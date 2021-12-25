@@ -9,8 +9,13 @@ jobs:
         ruby_version: ['3.0', '2.7', '2.6']
 
         gemfile:
+          - gemfiles/rails_70.gemfile
           - gemfiles/rails_61.gemfile
           - gemfiles/rails_60.gemfile
+
+        exclude:
+          - ruby_version: '2.6'
+            gemfile: gemfiles/rails_70.gemfile
 
         include:
           - ruby_version: ruby-head

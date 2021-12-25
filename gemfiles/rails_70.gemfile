@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gemspec :path => '../'
+
+gem 'rails', '~> 7.0.0'
+gem 'selenium-webdriver'
+gem 'net-smtp'
