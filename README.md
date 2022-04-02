@@ -21,18 +21,33 @@ Put a template file named `*.jb` in your Rails app's `app/views/*` directory, an
 
 ## Features
 
-* No ugly builder syntax
+* No original builder syntax that you have to learn
 * No `method_missing` calls
 * `render_partial` with :collection option actually renders the collection (unlike Jbuilder)
 
 
 ## Syntax
 
-A `.jb` template should contain Ruby code that returns any Ruby Object that responds_to `to_json` (generally Hash or Array).
-Then the return value will be `to_json`ed to a JSON String.
+A `.jb` template should contain Ruby code that returns any Ruby Object that responds\_to `to_json` (generally Hash or Array). Then the return value will be `to_json`ed to a JSON String.
 
 
 ## Examples
+
+Let's start with a very simple one. Just write a Ruby Hash as a template:
+
+``` ruby
+{language: 'Ruby', author: {name: 'Matz'}}
+```
+
+This renders the following JSON text:
+
+``` javascript
+{"language": "Ruby", "author": {"name": "Matz"}}
+```
+
+Note that modern Ruby Hash syntax pretty much looks alike JSON syntax. It's super-straight forward. Who needs a DSL to do this?
+
+Next one is a little bit advanced usage. The template doesn't have to be a single literal but can be any code that returns a Hash object:
 
 ``` ruby
 # app/views/messages/show.json.jb
@@ -97,18 +112,17 @@ This will build the following structure:
 }
 ```
 
-To define attribute and structure names dynamically, just use Ruby Hash.
-Note that modern Ruby Hash syntax pretty much looks alike JSON syntax.
-It's super-straight forward. Who needs a DSL to do this?
+If you want to define attribute and structure names dynamically, of course you still can do this with a Ruby Hash literal.
 
 ``` ruby
-{author: {name: 'Matz'}}
+# model_name, column_name = :author, :name
+
+{model_name => {column_name => 'Matz'}}
 
 # => {"author": {"name": "Matz"}}
 ```
 
-Top level arrays can be handled directly.  Useful for index and other collection actions.
-And you know, Ruby is such a powerful language for manipulating collections:
+Top level arrays can be handled directly. Useful for index and other collection actions. And you know, Ruby is such a powerful language for manipulating collections:
 
 ``` ruby
 # @comments = @post.comments
@@ -136,11 +150,7 @@ Jb has no special DSL method for extracting attributes from array directly, but 
 # => [{"id": 1, "name": "Matz"}, {"id": 2, "name": "Nobu"}]
 ```
 
-You can use Jb directly as an Action View template language.
-When required in Rails, you can create views ala show.json.jb.
-You'll notice in the following example that the `.jb` template
-doesn't have to be one big Ruby Hash literal as a whole
-but it can be any Ruby code that finally returns a Hash instance.
+You can use Jb directly as an Action View template language. When required in Rails, you can create views ala `show.json.jb`. You'll notice in the following example that the `.jb` template doesn't have to be one big Ruby Hash literal as a whole but it can be any Ruby code that finally returns a Hash instance.
 
 ``` ruby
 # Any helpers available to views are available in the template
@@ -163,10 +173,7 @@ end
 json
 ```
 
-You can use partials as well.  The following will render the file
-`views/comments/_comments.json.jb`, and set a local variable
-`comments` with all this message's comments, which you can use inside
-the partial.
+You can use partials as well.  The following will render the file `views/comments/_comments.json.jb`, and set a local variable `comments` with all this message's comments, which you can use inside the partial.
 
 ```ruby
 render 'comments/comments', comments: @message.comments
@@ -178,8 +185,7 @@ It's also possible to render collections of partials:
 render partial: 'posts/post', collection: @posts, as: :post
 ```
 
-> NOTE: Don't use `render @post.comments` because if the collection is empty,
-`render` will return `nil` instead of an empty array.
+> NOTE: Don't use `render @post.comments` because if the collection is empty, `render` will return `nil` instead of an empty array.
 
 You can pass any objects into partial templates with or without `:locals` option.
 
@@ -211,8 +217,7 @@ end
 
 
 ## The Generator
-Jb extends the default Rails scaffold generator and adds some .jb templates.
-If you don't need them, please configure like so.
+Jb extends the default Rails scaffold generator and adds some `.jb` templates. If you don't need them, please configure like so.
 
 ```ruby
 Rails.application.config.generators.jb false
