@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# Mokey-patches for Action View 4 and 5
+# Monkey-patches for Action View 4 and 5
 
 module Jb
   module PartialRenderer

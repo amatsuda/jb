@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# Mokey-patches for Action View 6+
+# Monkey-patches for Action View 6+
 
 module Jb
   # A monkey-patch that converts non-partial result to a JSON String
