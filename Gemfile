@@ -14,6 +14,7 @@ else
 end
 
 gem 'nokogiri', RUBY_VERSION < '2.1' ? '~> 1.6.0' : '>= 1.7'
+gem 'loofah', RUBY_VERSION < '2.5' ? '< 2.21.0' : '>= 0'
 gem 'selenium-webdriver'
 gem 'net-smtp' if RUBY_VERSION >= '3.1'
 
