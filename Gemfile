@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 if ENV['RAILS_VERSION'] == 'edge'
-  gem 'rails', git: 'https://github.com/rails/rails.git'
+  gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
 elsif ENV['RAILS_VERSION']
   gem 'rails', "~> #{ENV['RAILS_VERSION']}.0"
 else
