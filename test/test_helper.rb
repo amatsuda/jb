@@ -8,5 +8,5 @@ require File.expand_path("../../test/dummy_app/config/environment.rb",  __FILE__
 
 Bundler.require
 require 'action_args'
-require 'byebug'
+require 'debug'
 require 'test/unit/rails/test_help'
