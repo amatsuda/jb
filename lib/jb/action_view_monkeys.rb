@@ -58,7 +58,7 @@ module Jb
 end
 
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
-::ActionView::Base.prepend ::Jb::BaseToSCanceller
+::ActionView::Base.prepend ::Jb::BaseToSCanceller if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
 begin
   # ActionView::CollectionRenderer is a newly added class since 6.1
   ::ActionView::CollectionRenderer.prepend ::Jb::CollectionRendererExtension
