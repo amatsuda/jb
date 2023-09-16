@@ -58,6 +58,6 @@ jobs:
           ruby-version: ${{ matrix.ruby_version }}
           bundler: ${{ matrix.bundler_version }}
           bundler-cache: true
-        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || contains(matrix.rails_version, 'edge') || (matrix.allow_failures == 'true') }}
+        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || (matrix.allow_failures == 'true') }}
       - run: bundle exec rake
-        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || contains(matrix.rails_version, 'edge') || (matrix.allow_failures == 'true') }}
+        continue-on-error: ${{ (matrix.ruby_version == 'ruby-head') || (matrix.allow_failures == 'true') }}
