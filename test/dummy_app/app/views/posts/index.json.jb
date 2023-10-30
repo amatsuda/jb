@@ -1,0 +1,5 @@
+@posts.map do |post|
+  Rails.cache.fetch post do
+    render partial: 'posts/post', object: post
+  end
+end

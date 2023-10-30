@@ -19,7 +19,6 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal 'comment 3', json['comments'][2]['body']
   end
 
-
   test 'render_partial returns an empty array for nil-collection' do
     get '/posts/2.json'
 
@@ -31,6 +30,22 @@ class JbTest < ActionDispatch::IntegrationTest
 
     assert_equal 'post 2', json['title']
     assert_equal [], json['comments']
+  end
+
+  test 'Fragment-caching the result' do
+    # First request for setting the cache, and second request for fetching the cache
+    2.times do
+      get '/posts.json'
+
+      json = if response.respond_to?(:parsed_body)
+        response.parsed_body
+      else
+        JSON.parse response.body
+      end
+
+      assert_equal 'post 1', json[0]['title']
+      assert_equal 'post 2', json[1]['title']
+    end
   end
 
   test ':plain handler still works' do

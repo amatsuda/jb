@@ -13,15 +13,18 @@ module Jb
     end
   end
 
+  # A wrapper class for template result that makes `to_s` method do nothing
+  class TemplateResult < SimpleDelegator
+    def to_s
+      __getobj__
+    end
+  end
+
   # Rails 7.1+: A monkey-patch not to stringify rendered object from JB templates
-  module BaseToSCanceller
+  module TemlateResultCaster
     def _run(method, template, *, **)
       val = super
-      if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-        def val.to_s
-          self
-        end
-      end
+      val = Jb::TemplateResult.new val if template.respond_to?(:handler) && (template.handler == Jb::Handler)
       val
     end
   end
@@ -58,7 +61,7 @@ module Jb
 end
 
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
-::ActionView::Base.prepend ::Jb::BaseToSCanceller if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
+::ActionView::Base.prepend ::Jb::TemlateResultCaster if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
 begin
   # ActionView::CollectionRenderer is a newly added class since 6.1
   ::ActionView::CollectionRenderer.prepend ::Jb::CollectionRendererExtension

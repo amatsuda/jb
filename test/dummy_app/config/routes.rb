@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  resources :posts, only: :show do
+  resources :posts, only: [:index, :show] do
     collection do
       get :hello
     end
