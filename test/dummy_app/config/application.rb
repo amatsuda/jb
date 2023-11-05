@@ -15,6 +15,6 @@ module Dummy
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.hosts << 'www.example.com'
+    config.hosts << 'www.example.com' if config.respond_to? :hosts
   end
 end
