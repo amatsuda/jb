@@ -22,7 +22,7 @@ module Jb
       end
 
       ActiveSupport.on_load :action_controller do
-        if self == ActionController::API
+        if name == 'ActionController::API'
           include ActionController::Helpers
           include ActionController::ImplicitRender
         end
