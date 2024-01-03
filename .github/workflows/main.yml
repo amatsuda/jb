@@ -6,12 +6,16 @@ on:
   schedule:
     - cron: '26 13 * * *'
 
+
 jobs:
   build:
+    name: Ruby ${{ matrix.ruby_version }} / Rails ${{ matrix.rails_version }}${{ matrix.api == '1' && ' / API' || '' }}
+
     strategy:
       matrix:
         ruby_version: [ruby-head, '3.3', '3.2', '3.1']
         rails_version: [edge, '7.1', '7.0', '6.1']
+        api: ['0', '1']
 
         include:
           - ruby_version: '3.0'
@@ -31,6 +35,9 @@ jobs:
             rails_version: '6.1'
           - ruby_version: '2.7'
             rails_version: '6.0'
+          - ruby_version: '2.7'
+            rails_version: '6.0'
+            api: '1'
 
           - ruby_version: '2.6'
             rails_version: '6.1'
@@ -39,7 +46,13 @@ jobs:
           - ruby_version: '2.6'
             rails_version: '5.2'
           - ruby_version: '2.6'
+            rails_version: '5.2'
+            api: '1'
+          - ruby_version: '2.6'
             rails_version: '5.1'
+          - ruby_version: '2.6'
+            rails_version: '5.1'
+            api: '1'
           - ruby_version: '2.6'
             rails_version: '5.0'
           - ruby_version: '2.6'
@@ -48,6 +61,9 @@ jobs:
 
           - ruby_version: '2.5'
             rails_version: '5.2'
+          - ruby_version: '2.5'
+            rails_version: '5.0'
+            api: '1'
           - ruby_version: '2.5'
             rails_version: '4.2'
             bundler_version: '1'
@@ -60,6 +76,7 @@ jobs:
 
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
+      API: ${{ matrix.api }}
 
     runs-on: ubuntu-latest
 
