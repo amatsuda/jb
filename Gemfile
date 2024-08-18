@@ -18,5 +18,10 @@ gem 'loofah', RUBY_VERSION < '2.5' ? '< 2.21.0' : '>= 0'
 gem 'selenium-webdriver'
 gem 'net-smtp' if RUBY_VERSION >= '3.1'
 
+if RUBY_VERSION >= '3.3'
+  gem 'bigdecimal'
+  gem 'mutex_m'
+end
+
 # For benchmarking
 gem 'action_args'
