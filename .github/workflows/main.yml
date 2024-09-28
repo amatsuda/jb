@@ -77,6 +77,10 @@ jobs:
             rails_version: '4.2'
             bundler_version: '1'
 
+        exclude:
+          - ruby_version: '3.1'
+            rails_version: edge
+
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
       API: ${{ matrix.api }}
