@@ -80,6 +80,9 @@ jobs:
         exclude:
           - ruby_version: '3.1'
             rails_version: edge
+          - ruby_version: '3.1'
+            rails_version: '8.0'
+
 
     env:
       RAILS_VERSION: ${{ matrix.rails_version }}
