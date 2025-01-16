@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 require_relative 'boot'
 
+# require logger before rails or Rails 6 fails to boot
+require 'logger'
+
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'action_mailer/railtie'
