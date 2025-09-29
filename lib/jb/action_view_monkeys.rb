@@ -21,7 +21,7 @@ module Jb
   end
 
   # Rails 7.1+: A monkey-patch not to stringify rendered object from JB templates
-  module TemlateResultCaster
+  module TemplateResultCaster
     def _run(method, template, *, **)
       val = super
       val = Jb::TemplateResult.new val if template.respond_to?(:handler) && (template.handler == Jb::Handler)
@@ -61,7 +61,7 @@ module Jb
 end
 
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
-::ActionView::Base.prepend ::Jb::TemlateResultCaster if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
+::ActionView::Base.prepend ::Jb::TemplateResultCaster if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
 begin
   # ActionView::CollectionRenderer is a newly added class since 6.1
   ::ActionView::CollectionRenderer.prepend ::Jb::CollectionRendererExtension
