@@ -13,14 +13,14 @@ module Jb
     end
   end
 
-  # A wrapper class for template result that makes `to_s` method do nothing
+  # A wrapper class for template result that makes `to_s` method do nothing. So far only used for the Rails 7.1 monkey-patch below.
   class TemplateResult < SimpleDelegator
     def to_s
       __getobj__
     end
   end
 
-  # Rails 7.1+: A monkey-patch not to stringify rendered object from JB templates
+  # Rails 7.1 (to be precise, needed only for 7.1.0..7.1.3): A monkey-patch not to stringify rendered object from JB templates
   module TemplateResultCaster
     def _run(method, template, *, **)
       val = super
@@ -61,7 +61,7 @@ module Jb
 end
 
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer
-::ActionView::Base.prepend ::Jb::TemplateResultCaster if (ActionView::VERSION::MAJOR >= 7) && (ActionView::VERSION::MINOR >= 1)
+::ActionView::Base.prepend ::Jb::TemplateResultCaster if (ActionView::VERSION::MAJOR == 7) && (ActionView::VERSION::MINOR == 1) && (ActionView::VERSION::TINY < 4)
 begin
   # ActionView::CollectionRenderer is a newly added class since 6.1
   ::ActionView::CollectionRenderer.prepend ::Jb::CollectionRendererExtension
