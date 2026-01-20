@@ -78,6 +78,8 @@ jobs:
             bundler_version: '1'
 
         exclude:
+          - ruby_version: '3.2'
+            rails_version: edge
           - ruby_version: '3.1'
             rails_version: edge
           - ruby_version: '3.1'
