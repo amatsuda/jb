@@ -216,6 +216,12 @@ end
 ```
 
 
+## ActionController::API
+`ActionController::API` doesn't render view templates by default. So, in order to render `.jb` templates from API controllers, Jb includes `ActionView::Rendering`, `ActionController::Helpers`, and `ActionController::ImplicitRender` into `ActionController::API` (just like Jbuilder does).
+
+Note that this changes the behavior of API controller actions that don't explicitly call `render`. Instead of always responding with `204 No Content`, such an action now renders its template if one exists, raises `ActionController::UnknownFormat` if templates exist only for other formats, and raises `ActionController::MissingExactTemplate` for a GET request for HTML from a browser with no template.
+
+
 ## The Generator
 Jb extends the default Rails scaffold generator and adds some `.jb` templates. If you don't need them, please configure like so.
 
