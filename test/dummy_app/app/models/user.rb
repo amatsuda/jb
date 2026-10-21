@@ -9,4 +9,8 @@ User = Struct.new :id, :name do
       @all.detect {|u| u.id == id.to_i}
     end
   end
+
+  def to_partial_path
+    'users/user'
+  end
 end

@@ -11,6 +11,10 @@ Post = Struct.new :id, :user, :title do
     end
   end
 
+  def to_partial_path
+    'posts/post'
+  end
+
   def comments
     Comment.all.select {|c| c.post == self}
   end

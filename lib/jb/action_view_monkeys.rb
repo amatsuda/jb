@@ -33,12 +33,11 @@ module Jb
   module CollectionRendererExtension
     private def render_collection(_collection, _view, _path, template, _layout, _block)
       obj = super
-      if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-        if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
-          def obj.body; []; end
-        else
-          def obj.body; @rendered_templates.map(&:body); end
-        end
+      if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
+        def obj.body; []; end if template.respond_to?(:handler) && (template.handler == Jb::Handler)
+      # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
+      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
+        def obj.body; @rendered_templates.map(&:body); end
       end
       obj
     end
@@ -48,12 +47,11 @@ module Jb
   module PartialRendererExtension
     private def render_collection(_view, template)
       obj = super
-      if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-        if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
-          def obj.body; []; end
-        else
-          def obj.body; @rendered_templates.map(&:body); end
-        end
+      if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
+        def obj.body; []; end if template.respond_to?(:handler) && (template.handler == Jb::Handler)
+      # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
+      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
+        def obj.body; @rendered_templates.map(&:body); end
       end
       obj
     end

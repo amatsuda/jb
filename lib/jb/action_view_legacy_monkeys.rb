@@ -38,6 +38,21 @@ module Jb
         super
       end
     end
+
+    # A monkey-patch strengthening rendered collection of different kinds of objects, where the partial is found per object
+    module MixedCollectionExtension
+      private def find_template(*)
+        template = super
+        @jb_template_found = true if template.handler == Jb::Handler
+        template
+      end
+
+      private def collection_without_template
+        @jb_template_found = false
+        result = super
+        @jb_template_found ? result.extend(StrongArray) : result
+      end
+    end
   end
 
   # A monkey-patch that converts non-partial result to a JSON String
@@ -51,4 +66,5 @@ module Jb
 end
 
 ::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::JbTemplateDetector
+::ActionView::PartialRenderer.prepend ::Jb::PartialRenderer::MixedCollectionExtension
 ::ActionView::TemplateRenderer.prepend ::Jb::TemplateRenderer::JSONizer

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :posts, only: [:index, :show] do
     collection do
       get :hello
+      get :mixed
     end
   end
 

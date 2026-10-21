@@ -8,6 +8,10 @@ class PostsController < ApplicationController
     @post = Post.find id
   end
 
+  def mixed
+    @items = [Post.find(1), User.find(1)]
+  end
+
   def hello
     render plain: 'hello'
   end

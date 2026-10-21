@@ -32,6 +32,18 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal [], json['comments']
   end
 
+  test 'render_partial returns an Array for a collection of different kinds of objects' do
+    get '/posts/mixed.json'
+
+    json = if response.respond_to?(:parsed_body)
+      response.parsed_body
+    else
+      JSON.parse response.body
+    end
+
+    assert_equal [{'title' => 'post 1'}, {'name' => 'user 1'}], json['items']
+  end
+
   test 'Fragment-caching the result' do
     # First request for setting the cache, and second request for fetching the cache
     2.times do
