@@ -29,31 +29,42 @@ module Jb
     end
   end
 
+  # Rendered collection result for jb templates, whose `body` returns not a String but an Array
+  class RenderedCollection < ActionView::AbstractRenderer::RenderedCollection
+    def body
+      @rendered_templates.map(&:body)
+    end
+
+    class EmptyCollection < ActionView::AbstractRenderer::RenderedCollection::EmptyCollection
+      def body
+        []
+      end
+    end
+
+    # Replaces the given rendered collection with the jb version of it if it's rendered via jb template(s)
+    def self.from(obj, template)
+      if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
+        template.respond_to?(:handler) && (template.handler == Jb::Handler) ? EmptyCollection.new(obj.format) : obj
+      # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
+      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
+        new obj.rendered_templates, nil
+      else
+        obj
+      end
+    end
+  end
+
   # Rails 6.1+: A monkey-patch for jb template collection result's `body` not to return a String but an Array
   module CollectionRendererExtension
     private def render_collection(_collection, _view, _path, template, _layout, _block)
-      obj = super
-      if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
-        def obj.body; []; end if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-      # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
-      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
-        def obj.body; @rendered_templates.map(&:body); end
-      end
-      obj
+      Jb::RenderedCollection.from super, template
     end
   end
 
   # Rails 6.0: A monkey-patch for jb template collection result's `body` not to return a String but an Array
   module PartialRendererExtension
     private def render_collection(_view, template)
-      obj = super
-      if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
-        def obj.body; []; end if template.respond_to?(:handler) && (template.handler == Jb::Handler)
-      # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
-      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
-        def obj.body; @rendered_templates.map(&:body); end
-      end
-      obj
+      Jb::RenderedCollection.from super, template
     end
   end
 end
