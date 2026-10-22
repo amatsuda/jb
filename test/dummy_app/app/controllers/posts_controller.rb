@@ -17,6 +17,20 @@ class PostsController < ApplicationController
     render plain: render_to_string(:show)
   end
 
+  def nested
+    @post = Post.find 1
+  end
+
+  def embedded
+    @post = Post.find 1
+    render layout: false
+  end
+
+  def with_layout
+    @post = Post.find 1
+    render :show, layout: 'wrapped'
+  end
+
   def hello
     render plain: 'hello'
   end

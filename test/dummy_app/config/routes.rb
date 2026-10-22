@@ -5,6 +5,9 @@ Rails.application.routes.draw do
       get :hello
       get :mixed
       get :rendered_to_string
+      get :nested
+      get :embedded
+      get :with_layout
     end
   end
 

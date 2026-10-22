@@ -69,6 +69,33 @@ class JbTest < ActionDispatch::IntegrationTest
     assert_equal ['comment 1', 'comment 2', 'comment 3'], json['comments'].map {|c| c['body'] }
   end
 
+  test 'render template: from a jb template returns the rendered object, not a JSON String' do
+    get '/posts/nested.json'
+
+    json = JSON.parse response.body
+
+    assert_equal 'post 1', json['post']['title']
+  end
+
+  test 'render template: from a non-jb template returns a JSON String' do
+    get '/posts/embedded'
+
+    json = JSON.parse response.body
+
+    assert_equal 'post 1', json['title']
+  end
+
+  # ActionController::API doesn't support layouts
+  unless ENV['API'] == '1'
+    test 'a non-jb layout yields a JSON String' do
+      get '/posts/with_layout.json'
+
+      json = JSON.parse response.body
+
+      assert_equal 'post 1', json['data']['title']
+    end
+  end
+
   test ':plain handler still works' do
     get '/posts/hello'
     assert_equal 'hello', response.body

@@ -1,0 +1,1 @@
+{post: render(template: 'posts/show')}

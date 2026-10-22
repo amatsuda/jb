@@ -55,11 +55,40 @@ module Jb
     end
   end
 
-  # A monkey-patch that converts non-partial result to a JSON String
+  # A monkey-patch that converts non-partial result to a JSON String, unless it's rendered from another jb template
   module TemplateRenderer
     module JSONizer
       def render_template(template, *)
-        template.respond_to?(:handler) && (template.handler == Jb::Handler) ? super.to_json : super
+        from_jb = @view.instance_variable_get :@_jb_rendering_jb
+        # render_with_layout doesn't take the template in Action View 4 and 5
+        @_jb_template = jb_template?(template)
+        result = super
+        @_jb_template && !from_jb && !@_jb_yielded_to_layout ? result.to_json : result
+      end
+
+      # Marks the view while rendering a jb template's body, and makes a non-jb layout yield a JSON String
+      private def render_with_layout(*)
+        view, jb = @view, @_jb_template
+        super do |layout|
+          from_jb = view.instance_variable_get :@_jb_rendering_jb
+          view.instance_variable_set :@_jb_rendering_jb, jb
+          begin
+            content = yield layout
+          ensure
+            view.instance_variable_set :@_jb_rendering_jb, from_jb
+          end
+
+          if jb && layout && !jb_template?(layout)
+            @_jb_yielded_to_layout = true
+            content.to_json
+          else
+            content
+          end
+        end
+      end
+
+      private def jb_template?(template)
+        template.respond_to?(:handler) && (template.handler == Jb::Handler)
       end
     end
   end
