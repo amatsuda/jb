@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/amatsuda/jb'
   spec.license       = "MIT"
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         = `git ls-files -z -- lib LICENSE.txt README.md`.split("\x0")
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.4"
 end
