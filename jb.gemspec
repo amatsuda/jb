@@ -19,4 +19,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z -- lib LICENSE.txt README.md`.split("\x0")
   spec.require_paths = ["lib"]
   spec.required_ruby_version = ">= 2.4"
+
+  spec.add_dependency 'railties', '>= 4.2'
+  spec.add_dependency 'actionview', '>= 4.2'
 end
