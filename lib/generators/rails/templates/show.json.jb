@@ -1,3 +1,6 @@
 {
-  <%= attributes_names_with_timestamps.map {|attr| "#{attr}: @#{singular_table_name}.#{attr}"}.join(",\n  ") %>
+<% json_attributes("@#{singular_table_name}").each do |name, value| -%>
+  <%= name %>: <%= value %>,
+<% end -%>
+  url: <%= singular_table_name %>_url(@<%= singular_table_name %>, format: :json)
 }

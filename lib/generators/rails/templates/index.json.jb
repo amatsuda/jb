@@ -1,7 +1,7 @@
 @<%= plural_table_name %>.map do |<%= singular_table_name %>|
   {
-<% attributes_names.each do |attr| -%>
-    <%= attr %>: <%= singular_table_name %>.<%= attr %>,
+<% json_attributes(singular_table_name).each do |name, value| -%>
+    <%= name %>: <%= value %>,
 <% end -%>
     url: <%= singular_table_name %>_url(<%= singular_table_name %>, format: :json)
   }
