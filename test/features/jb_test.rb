@@ -60,6 +60,15 @@ class JbTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'render_to_string returns a JSON String' do
+    get '/posts/rendered_to_string.json'
+
+    json = JSON.parse response.body
+
+    assert_equal 'post 1', json['title']
+    assert_equal ['comment 1', 'comment 2', 'comment 3'], json['comments'].map {|c| c['body'] }
+  end
+
   test ':plain handler still works' do
     get '/posts/hello'
     assert_equal 'hello', response.body

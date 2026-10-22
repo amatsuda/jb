@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     collection do
       get :hello
       get :mixed
+      get :rendered_to_string
     end
   end
 
