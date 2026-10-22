@@ -13,7 +13,7 @@ else
   gem 'rails'
 end
 
-if ENV['RAILS_VERSION'] && (ENV['RAILS_VERSION'] < '8.1')
+if ENV['RAILS_VERSION'] && (ENV['RAILS_VERSION'] != 'edge') && (Gem::Version.new(ENV['RAILS_VERSION']) < Gem::Version.new('8.1'))
   gem 'json', '< 3'
 end
 
