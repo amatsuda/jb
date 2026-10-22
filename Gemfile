@@ -5,6 +5,11 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in jb.gemspec
 gemspec
 
+gem 'rake'
+gem 'test-unit-rails'
+gem 'action_args'
+gem 'debug'
+
 if ENV['RAILS_VERSION'] == 'edge'
   gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'main'
 elsif ENV['RAILS_VERSION']
@@ -27,6 +32,3 @@ if RUBY_VERSION >= '3.3'
   gem 'bigdecimal'
   gem 'mutex_m'
 end
-
-# For benchmarking
-gem 'action_args'

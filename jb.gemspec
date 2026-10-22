@@ -17,15 +17,6 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-
-  spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'test-unit-rails'
-  spec.add_development_dependency 'rails'
-  spec.add_development_dependency 'action_args'
-  spec.add_development_dependency 'debug'
-  spec.add_development_dependency 'selenium-webdriver'
+  spec.required_ruby_version = ">= 2.4"
 end
