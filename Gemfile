@@ -8,7 +8,8 @@ gemspec
 gem 'rake'
 gem 'test-unit-rails'
 gem 'action_args'
-gem 'jbuilder'
+# required in test_helper.rb
+gem 'jbuilder', require: false
 gem 'debug'
 
 if ENV['RAILS_VERSION'] == 'edge'
