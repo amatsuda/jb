@@ -31,6 +31,10 @@ class PostsController < ApplicationController
     render :show, layout: 'wrapped'
   end
 
+  def jbuilder
+    @post = Post.find 1
+  end
+
   def hello
     render plain: 'hello'
   end

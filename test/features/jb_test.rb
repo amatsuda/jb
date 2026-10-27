@@ -96,6 +96,14 @@ class JbTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'a Jbuilder collection partial is not affected' do
+    get '/posts/jbuilder.json'
+
+    json = JSON.parse response.body
+
+    assert_equal ['comment 1', 'comment 2', 'comment 3'], json['comments'].map {|c| c['body'] }
+  end
+
   test ':plain handler still works' do
     get '/posts/hello'
     assert_equal 'hello', response.body
