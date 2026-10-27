@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get :nested
       get :embedded
       get :with_layout
+      get :jbuilder
     end
   end
 

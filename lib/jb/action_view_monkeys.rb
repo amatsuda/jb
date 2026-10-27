@@ -72,7 +72,8 @@ module Jb
       if ActionView::AbstractRenderer::RenderedCollection::EmptyCollection === obj
         template.respond_to?(:handler) && (template.handler == Jb::Handler) ? EmptyCollection.new(obj.format) : obj
       # `template` is nil for a collection of different kinds of objects, so check each rendered template's handler
-      elsif obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
+      # (Jbuilder's CollectionRenderer returns its own attributes instead of a RenderedCollection)
+      elsif (ActionView::AbstractRenderer::RenderedCollection === obj) && obj.rendered_templates.any? {|rt| rt.template.respond_to?(:handler) && (rt.template.handler == Jb::Handler) }
         new obj.rendered_templates, nil
       else
         obj

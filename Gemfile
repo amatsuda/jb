@@ -8,6 +8,7 @@ gemspec
 gem 'rake'
 gem 'test-unit-rails'
 gem 'action_args'
+gem 'jbuilder'
 gem 'debug'
 
 if ENV['RAILS_VERSION'] == 'edge'
