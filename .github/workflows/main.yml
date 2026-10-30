@@ -96,7 +96,7 @@ jobs:
       RAILS_VERSION: ${{ matrix.rails_version }}
       API: ${{ matrix.api }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v7
